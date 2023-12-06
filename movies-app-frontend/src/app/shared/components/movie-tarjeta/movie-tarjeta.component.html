@@ -1,0 +1,41 @@
+<mat-card>
+        
+    <mat-card-header>
+        <mat-card-title>
+            {{ movie.title }}
+        </mat-card-title>
+    </mat-card-header>
+
+    <article class="TagFavorite">
+        <a>
+            <span *ngIf="isFavorite" class="Favorite"><span>Favorite</span></span>
+            <div class="Image">
+                <img mat-card-image [src]="movie | imagen" [routerLink]="[(auth.usuario != null ? '/movies' : '/home'), movie.id]" style="cursor: pointer">
+            </div>
+        </a>
+    </article>
+
+    <mat-card-content>
+        <h3>{{ "Information" }}</h3>
+        <div fxLayout="row">
+            <span class="material-icons" fxFlexAlign="center">
+                star_half
+            </span>
+            <strong fxFlexAlign="center">Rating: </strong>
+            <span fxFlexAlign="center">{{ movie.rating }}</span>
+        </div>
+        
+    </mat-card-content>
+
+    <mat-card-actions>
+
+        <button mat-button 
+                color="warn"
+                [routerLink]="[(auth.usuario != null ? '/movies' : '/home'), movie.id]">
+            <mat-icon>info</mat-icon>
+            Watch Info...
+        </button>
+
+    </mat-card-actions>
+
+</mat-card>

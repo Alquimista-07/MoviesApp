@@ -1,0 +1,102 @@
+<!--Creamos el grid y le pasamos el número de columnas que es obligatorio-->
+<mat-grid-list cols="1" *ngIf="!movie; else divMovie">
+    <mat-grid-tile>
+        <mat-spinner></mat-spinner>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<ng-template #divMovie>
+    <div fxLayout="row"
+         fxLayout.xs="column"
+         fxLayoutGap="30px">
+
+         <!--Definimos el 50%-->
+         <div fxFlex="50">
+            <h1>{{ movie.title }}</h1>
+            <mat-divider></mat-divider>
+            <br>
+                <article class="TagFavorite">
+                  <a>
+                    <span *ngIf="isFavorite" class="Favorite"><span>Favorite</span></span>
+                    <div class="Image">
+                        <img [src]="movie | imagen"/>
+                    </div>
+                  </a>
+                </article>
+         </div>
+
+         <div fxFlex="50">
+             <h1 style="padding-top: 70px;">{{"Information"}}</h1>
+             <mat-divider></mat-divider>
+             <mat-list>
+                 <strong>Description: </strong>
+                 <p>
+                    <br>
+                    {{ movie.description }}
+                 </p>
+             </mat-list>
+             <mat-list>
+                <div fxLayout="row">
+                    <span class="material-icons" fxFlexAlign="center">
+                        star_half
+                    </span>
+                    <strong fxFlexAlign="center">Rating: </strong>
+                    <span fxFlexAlign="center">{{ movie.rating }}</span>
+                </div>
+             </mat-list>
+             <mat-list>
+                <strong>Duration: </strong>
+                <p>
+                   {{ movie.duration }}
+                </p>
+            </mat-list>
+             <mat-list>
+                <strong>Release Date: </strong>
+                <p>
+                   {{ movie.releasedDate.day }}-{{ movie.releasedDate.month }}-{{ movie.releasedDate.year }}
+                </p>
+            </mat-list>
+            <mat-list>
+                <strong>Genres: </strong>
+                <span *ngFor="let genre of movie.genre" style="padding: 4px;">
+                    <button mat-raised-button>
+                        {{ genre }}
+                    </button>
+                </span>
+            </mat-list>
+            
+            <br>
+            <button mat-button 
+                    color="warn" 
+                    (click)="volver()">
+                Regresar
+            </button>
+
+            <button *ngIf="auth.usuario != null && isFavorite != true"
+                    mat-button 
+                    color="info"
+                    (click)="addFavorite(movie.id)">
+                    Add Favorite
+                    <mat-icon>favorite</mat-icon>
+            </button>
+
+            <button *ngIf="auth.usuario != null && isFavorite != false"
+                    mat-button 
+                    color="info"
+                    (click)="removeFavorite(movie.id, auth.id)">
+                    Remove Favorite
+                    <mat-icon>clear</mat-icon>
+            </button>
+             <br>
+             <br>
+
+             <h1>{{"Tráiler"}}</h1>
+             <mat-divider></mat-divider>
+             <mat-list fx>
+                <app-youtube-player [movie]="movie"></app-youtube-player>
+            </mat-list>
+             
+         </div>
+
+    </div>
+</ng-template>
